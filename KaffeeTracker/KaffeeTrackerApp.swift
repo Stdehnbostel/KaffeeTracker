@@ -11,7 +11,15 @@ import SwiftUI
 struct KaffeeTrackerApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TabView {
+                Tab("Home", systemImage: "house.fill") {
+                    HomeView()
+                }
+                
+                Tab("Übersicht", systemImage: "list.dash") {
+                    ListView()
+                }
+            }
         }
     }
 }
