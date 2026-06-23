@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Espresso",
+        "defaultVolume": 30,
+        "defaultPrice": 2.40,
+        "defaultCaffeine": 60
+    },
+    {
+        "name": "Cappucino",
+        "defaultVolume": 120,
+        "defaultPrice": 4.20,
+        "defaultCaffeine": 60
+    },
+    {
+        "name": "Latte Macchiato",
+        "defaultVolume": 180,
+        "defaultPrice": 4.40,
+        "defaultCaffeine": 60
+    },
+    {
+        "name": "Americano",
+        "defaultVolume": 180,
+        "defaultPrice": 3.80,
+        "defaultCaffeine": 60
+    },
+    {
+        "name": "Flat White",
+        "defaultVolume": 120,
+        "defaultPrice": 4.60,
+        "defaultCaffeine": 120
+    }
+]

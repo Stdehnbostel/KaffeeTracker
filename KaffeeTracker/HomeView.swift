@@ -5,9 +5,11 @@
 //  Created by Stefan on 11.06.26.
 //
 
+import SwiftData
 import SwiftUI
 
 struct HomeView: View {
+    @Query(sort: \CoffeeType.name) var coffeeTypes: [CoffeeType]
     @State private var showNewCoffeSheet: Bool = false
     
     var body: some View {
@@ -28,7 +30,9 @@ struct HomeView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing)
                 {
-                    Button {} label: {
+                    Button {
+                        showNewCoffeSheet = true
+                    } label: {
                         Label("Hinzufügen", systemImage: "plus")
                     }
                 }
@@ -41,7 +45,11 @@ struct HomeView: View {
             }
             .background(.cremaBackground)
             .sheet(isPresented: $showNewCoffeSheet) {
-                NewCoffeeView()
+                if let defaultSelection = coffeeTypes.first {
+                    NewCoffeeView(defaultType: defaultSelection)
+                } else {
+                    Text("Es können derzeit keine Kaffees hinzugefügt werden.")
+                }
             }
         }
     }

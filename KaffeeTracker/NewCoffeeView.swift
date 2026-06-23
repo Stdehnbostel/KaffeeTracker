@@ -5,14 +5,19 @@
 //  Created by Stefan on 11.06.26.
 //
 
+import SwiftData
 import SwiftUI
 
 struct NewCoffeeView: View {
     @Environment(\.dismiss) var dismiss
-    let types = ["Espresso", "Cappucino", "Flat White", "Latte Macciato"]
-    @State private var selectedType = "Espresso"
+    @Query(sort: \CoffeeType.name) var types: [CoffeeType]
+    @State private var selectedType: CoffeeType
     @State private var price = 0.0
     @State private var volume = 0
+    
+    init(defaultType: CoffeeType) {
+        _selectedType = State(initialValue: defaultType)
+    }
     
     var textField: some View {
         let text = Binding<String>(
@@ -37,7 +42,7 @@ struct NewCoffeeView: View {
                     
                     Picker("Sorte", selection: $selectedType) {
                         ForEach(types, id: \.self) {
-                            Text($0).tag($0)
+                            Text($0.name).tag($0)
                         }
                     }
                     .pickerStyle(.menu)
@@ -90,5 +95,5 @@ extension NewCoffeeView {
 }
 
 #Preview {
-    NewCoffeeView()
+    NewCoffeeView(defaultType: CoffeeType(name: "Espresse", defaultVolume: 60, defaultPrice: 2.4, defaultCaffeine: 60))
 }
