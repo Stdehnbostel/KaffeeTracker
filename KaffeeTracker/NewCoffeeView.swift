@@ -12,11 +12,13 @@ struct NewCoffeeView: View {
     @Environment(\.dismiss) var dismiss
     @Query(sort: \CoffeeType.name) var types: [CoffeeType]
     @State private var selectedType: CoffeeType
-    @State private var price = 0.0
-    @State private var volume = 0
+    @State private var price: Double
+    @State private var volume: Int
     
     init(defaultType: CoffeeType) {
         _selectedType = State(initialValue: defaultType)
+        _price = State(initialValue: defaultType.defaultPrice)
+        _volume = State(initialValue: defaultType.defaultVolume)
     }
     
     var textField: some View {
@@ -47,6 +49,10 @@ struct NewCoffeeView: View {
                     }
                     .pickerStyle(.menu)
                     .tint(.cremaEspresso)
+                    .onChange(of: selectedType) {
+                        price = selectedType.defaultPrice
+                        volume = selectedType.defaultVolume
+                    }
                 }
                 Section {
                     HStack {
