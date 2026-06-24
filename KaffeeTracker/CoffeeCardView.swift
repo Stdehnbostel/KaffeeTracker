@@ -9,6 +9,9 @@ import SwiftUI
 
 struct CoffeeCardView: View {
     let title: String
+    let numberOfCoffees: Int
+    let cost: Double
+    let volume: Int
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -20,7 +23,7 @@ struct CoffeeCardView: View {
                         VStack(alignment: .leading) {
                             Text("Kaffees")
                                 .font(.caption)
-                            Text("5")
+                            Text(String(numberOfCoffees))
                                 .font(.headline)
                         }
                         Spacer()
@@ -29,7 +32,7 @@ struct CoffeeCardView: View {
                         VStack(alignment: .leading) {
                             Text("Kosten")
                                 .font(.caption)
-                            Text("15,40 €")
+                            Text(cost.formatted(.currency(code: "EUR")))
                                 .font(.headline)
                         }
                         Spacer()
@@ -41,7 +44,7 @@ struct CoffeeCardView: View {
                         VStack(alignment: .leading) {
                             Text("Menge")
                                 .font(.caption)
-                            Text("610 ml")
+                            Text("\(volume) ml")
                                 .font(.headline)
                         }
                         Spacer()
@@ -66,5 +69,5 @@ struct CoffeeCardView: View {
 }
 
 #Preview {
-    CoffeeCardView(title: "Diese Woche")
+    CoffeeCardView(title: "Diese Woche", numberOfCoffees: 5, cost: 15.40, volume: 610)
 }

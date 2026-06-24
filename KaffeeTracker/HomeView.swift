@@ -10,15 +10,16 @@ import SwiftUI
 
 struct HomeView: View {
     @Query(sort: \CoffeeType.defaultPrice) var coffeeTypes: [CoffeeType]
+    @Query(sort: \Coffee.date) var coffees: [Coffee]
     @State private var showNewCoffeSheet: Bool = false
     
     var body: some View {
         NavigationStack {
             ScrollView {
-                CoffeeCardView(title: "Diese Woche")
+                CoffeeCardView(title: "Diese Woche", numberOfCoffees: 5, cost: 15.40, volume: 610)
                 .padding()
                 
-                CoffeeCardView(title: "Gesamt")
+                CoffeeCardView(title: "Gesamt", numberOfCoffees: coffees.count, cost: coffees.map(\.price).reduce(0, +), volume: coffees.map(\.volume).reduce(0, +))
                 .padding()
                 
                 VStack {
