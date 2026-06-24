@@ -9,7 +9,7 @@ import SwiftData
 import SwiftUI
 
 struct HomeView: View {
-    @Query(sort: \CoffeeType.name) var coffeeTypes: [CoffeeType]
+    @Query(sort: \CoffeeType.defaultPrice) var coffeeTypes: [CoffeeType]
     @State private var showNewCoffeSheet: Bool = false
     
     var body: some View {

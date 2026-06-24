@@ -5,12 +5,15 @@
 //  Created by Stefan on 11.06.26.
 //
 
+import SwiftData
 import SwiftUI
 
 struct ListView: View {
+    @Query(sort: \Coffee.date) var coffees: [Coffee]
+    
     var body: some View {
         NavigationStack {
-            List {
+            List(coffees) { coffee in
                 NavigationLink {
                     CoffeeDetailView()
                 } label: {
@@ -24,16 +27,16 @@ struct ListView: View {
                             .padding(.trailing, 4)
                         VStack {
                             HStack {
-                                Text("Espresso")
+                                Text(coffee.name)
                                     .font(.body.bold())
                                 Spacer()
-                                Text("2,40€")
+                                Text(String(coffee.price))
                             }
                             HStack {
-                                Text("05.06.2026 9:00")
+                                Text(coffee.date.formatted())
                                     .font(.caption)
                                 Spacer()
-                                Text("30 ml 63 mg ")
+                                Text("\(coffee.volume) ml 63 mg ")
                                     .font(.caption)
                             }
                         }

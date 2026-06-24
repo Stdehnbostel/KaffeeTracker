@@ -21,6 +21,7 @@ class CoffeeType: Codable {
     var defaultVolume: Int
     var defaultPrice: Double
     var defaultCaffeine: Int
+    var coffees = [Coffee]()
     
     init(name: String, defaultVolume: Int, defaultPrice: Double, defaultCaffeine: Int) {
         self.name = name

@@ -10,6 +10,7 @@ import SwiftUI
 
 struct NewCoffeeView: View {
     @Environment(\.dismiss) var dismiss
+    @Environment(\.modelContext) private var modelContext
     @Query(sort: \CoffeeType.name) var types: [CoffeeType]
     @State private var selectedType: CoffeeType
     @State private var price: Double
@@ -27,8 +28,10 @@ struct NewCoffeeView: View {
                 volume > 0 ? "\(volume) ml" : "0 ml"
             }
             , set: { text in
-                let text = text.replacingOccurrences(of: "ml", with: "")
+                let text = text.replacingOccurrences(of: "ml", with: "").trimmingCharacters(in: .whitespaces)
+                print(text)
                 let newVolume = Int(text) ?? 0
+                print(newVolume)
                 volume = newVolume
             }
         )
@@ -68,9 +71,7 @@ struct NewCoffeeView: View {
                             .frame(width: 80)
                     }
                 }
-                Button("Speichern") {
-                    
-                }
+                Button("Speichern", action: save)
                 .font(.title3.bold())
                 .frame(maxWidth: .infinity)
                 .foregroundStyle(.cremaFoam)
@@ -89,6 +90,16 @@ struct NewCoffeeView: View {
                     }
                 }
             }
+        }
+    }
+    func save() {
+        do {
+            let coffee = Coffee(name: selectedType.name, price: price, volume: volume, type: selectedType, date: .now)
+            modelContext.insert(coffee)
+            try modelContext.save()
+            dismiss()
+        } catch {
+            
         }
     }
 }
