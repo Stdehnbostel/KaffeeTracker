@@ -16,7 +16,7 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                CoffeeCardView(title: "Diese Woche", numberOfCoffees: 5, cost: 15.40, volume: 610)
+                CoffeeCardView(title: "Diese Woche", numberOfCoffees: currentWeeksCoffees().count, cost: currentWeeksCoffees().map(\.price).reduce(0, +), volume: currentWeeksCoffees().map(\.volume).reduce(0, +))
                 .padding()
                 
                 CoffeeCardView(title: "Gesamt", numberOfCoffees: coffees.count, cost: coffees.map(\.price).reduce(0, +), volume: coffees.map(\.volume).reduce(0, +))
@@ -53,6 +53,18 @@ struct HomeView: View {
                 }
             }
         }
+    }
+    
+    func getStartOfCurrentWeek() -> Date {
+        let now = Date.now
+        let startOfToday = Calendar.current.startOfDay(for: now)
+        let dayOfWeek = now.formatted(Date.FormatStyle().weekday(.oneDigit))
+        let startOfWeek = Calendar.current.date(byAdding: .day, value: -(Int(dayOfWeek) ?? 0), to: startOfToday) ?? .now
+        return startOfWeek
+    }
+    
+    func currentWeeksCoffees() -> [Coffee] {
+        coffees.filter { $0.date >= getStartOfCurrentWeek() }
     }
 }
 
