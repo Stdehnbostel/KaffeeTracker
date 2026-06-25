@@ -15,19 +15,22 @@ class CoffeeType: Codable {
         case defaultVolume
         case defaultPrice
         case defaultCaffeine
+        case abbreviation
     }
     
     var name: String
     var defaultVolume: Int
     var defaultPrice: Double
     var defaultCaffeine: Int
+    var abbreviation: String?
     var coffees = [Coffee]()
     
-    init(name: String, defaultVolume: Int, defaultPrice: Double, defaultCaffeine: Int) {
+    init(name: String, defaultVolume: Int, defaultPrice: Double, defaultCaffeine: Int, abbreviation: String? = nil) {
         self.name = name
         self.defaultVolume = defaultVolume
         self.defaultPrice = defaultPrice
         self.defaultCaffeine = defaultCaffeine
+        self.abbreviation = abbreviation
     }
     
     required init(from decoder: Decoder) throws {
@@ -37,6 +40,8 @@ class CoffeeType: Codable {
         defaultVolume = try container.decode(Int.self, forKey: .defaultVolume)
         defaultPrice = try container.decode(Double.self, forKey: .defaultPrice)
         defaultCaffeine = try container.decode(Int.self, forKey: .defaultCaffeine)
+        abbreviation = try container.decodeIfPresent(String.self, forKey: .abbreviation)
+        print("Encoded abbreviation: \(String(describing: abbreviation))")
     }
     
     func encode(to encoder: Encoder) throws {
@@ -45,5 +50,6 @@ class CoffeeType: Codable {
         try container.encode(defaultVolume, forKey: .defaultVolume)
         try container.encode(defaultPrice, forKey: .defaultPrice)
         try container.encode(defaultCaffeine, forKey: .defaultCaffeine)
+        try container.encodeIfPresent(abbreviation, forKey: .abbreviation)
     }
 }

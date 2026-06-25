@@ -18,7 +18,7 @@ struct ListView: View {
                     CoffeeDetailView()
                 } label: {
                     HStack {
-                        Text("ES")
+                        Text(coffee.type.abbreviation ?? "ES")
                             .font(.headline)
                             .foregroundStyle(.cremaInk)
                             .padding()
