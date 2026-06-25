@@ -33,26 +33,29 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                CoffeeCardView(title: "Diese Woche", numberOfCoffees: currentWeeksCoffees().count, cost: currentWeeksCoffees().map(\.price).reduce(0, +), volume: currentWeeksCoffees().map(\.volume).reduce(0, +))
-                .padding()
-                
-                CoffeeCardView(title: "Gesamt", numberOfCoffees: coffees.count, cost: coffees.map(\.price).reduce(0, +), volume: coffees.map(\.volume).reduce(0, +))
-                .padding()
-                
-                VStack(alignment: .leading) {
-                    Text("Verlauf")
+                VStack {
+                    CoffeeCardView(title: "Diese Woche", numberOfCoffees: currentWeeksCoffees().count, cost: currentWeeksCoffees().map(\.price).reduce(0, +), volume: currentWeeksCoffees().map(\.volume).reduce(0, +))
                         .padding(.bottom)
-                    Chart(placeholderData) { day in
-                        BarMark(
-                            x: .value("Tag", day.date.formatted()),
-                            y: .value("Ausgaben", day.cost))
+                    
+                    CoffeeCardView(title: "Gesamt", numberOfCoffees: coffees.count, cost: coffees.map(\.price).reduce(0, +), volume: coffees.map(\.volume).reduce(0, +))
+                        .padding(.bottom)
+                    
+                    VStack(alignment: .leading) {
+                        Text("Verlauf")
+                            .padding(.bottom)
+                        Chart(placeholderData) { day in
+                            BarMark(
+                                x: .value("Tag", day.date.formatted()),
+                                y: .value("Ausgaben", day.cost))
+                        }
                     }
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(.cremaCard)
+                    .clipShape(.rect(cornerRadius: 15))
                 }
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background(.cremaCard)
-                .clipShape(.rect(cornerRadius: 15))
-                .padding()
+                .padding(.top)
+                .padding(.horizontal)
                 .navigationTitle("Kaffee Tracker")
             }
             .scrollBounceBehavior(.basedOnSize)
