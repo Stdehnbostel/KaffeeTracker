@@ -55,6 +55,7 @@ struct KaffeeTrackerApp: App {
                     ListView()
                 }
             }
+            .tint(.cremaInk)
         }
         .modelContainer(container)
     }
