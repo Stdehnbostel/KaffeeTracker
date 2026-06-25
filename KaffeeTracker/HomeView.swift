@@ -55,16 +55,8 @@ struct HomeView: View {
         }
     }
     
-    func getStartOfCurrentWeek() -> Date {
-        let now = Date.now
-        let startOfToday = Calendar.current.startOfDay(for: now)
-        let dayOfWeek = now.formatted(Date.FormatStyle().weekday(.oneDigit))
-        let startOfWeek = Calendar.current.date(byAdding: .day, value: -(Int(dayOfWeek) ?? 0), to: startOfToday) ?? .now
-        return startOfWeek
-    }
-    
     func currentWeeksCoffees() -> [Coffee] {
-        coffees.filter { $0.date >= getStartOfCurrentWeek() }
+        coffees.filter { $0.date >= .now.startOfWeek ?? .now }
     }
 }
 
