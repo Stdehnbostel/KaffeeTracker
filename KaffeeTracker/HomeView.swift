@@ -9,7 +9,7 @@ import Charts
 import SwiftData
 import SwiftUI
 
-struct coffeeDay: Identifiable {
+struct CoffeeDay: Identifiable {
     var date: Date
     var cost: Double
     var id = UUID()
@@ -20,15 +20,6 @@ struct HomeView: View {
     @Query(sort: \Coffee.date) var coffees: [Coffee]
     @State private var showNewCoffeSheet: Bool = false
     
-    let placeholderData = [
-        coffeeDay(date: .now.startOfWeek ?? .now, cost: 14.2),
-        coffeeDay(date: Calendar.current.date(byAdding: .day, value: 1, to: .now.startOfWeek ?? .now) ?? .now, cost: 8),
-        coffeeDay(date: Calendar.current.date(byAdding: .day, value: 2, to: .now.startOfWeek ?? .now) ?? .now, cost: 12.4),
-        coffeeDay(date: Calendar.current.date(byAdding: .day, value: 3, to: .now.startOfWeek ?? .now) ?? .now, cost: 6),
-        coffeeDay(date: Calendar.current.date(byAdding: .day, value: 4, to: .now.startOfWeek ?? .now) ?? .now, cost: 0),
-        coffeeDay(date: Calendar.current.date(byAdding: .day, value: 5, to: .now.startOfWeek ?? .now) ?? .now, cost: 0),
-        coffeeDay(date: Calendar.current.date(byAdding: .day, value: 6, to: .now.startOfWeek ?? .now) ?? .now, cost: 0)
-    ]
     
     var body: some View {
         NavigationStack {
@@ -43,7 +34,7 @@ struct HomeView: View {
                     VStack(alignment: .leading) {
                         Text("Verlauf")
                             .padding(.bottom)
-                        Chart(placeholderData) { day in
+                        Chart(chartData()) { day in
                             BarMark(
                                 x: .value("Tag", day.date.formatted()),
                                 y: .value("Ausgaben", day.cost))
@@ -88,6 +79,25 @@ struct HomeView: View {
     
     func currentWeeksCoffees() -> [Coffee] {
         coffees.filter { $0.date >= .now.startOfWeek ?? .now }
+    }
+    
+    func costForDayOfTheWeek(_ day: Int) -> Double {
+        let start = Calendar.current.date(byAdding: .day, value: day, to: Date.now.startOfWeek ?? .now) ?? .now
+        let end = Calendar.current.date(byAdding: .day, value: day + 1, to: Date.now.startOfWeek ?? .now) ?? .now
+        return coffees.filter { $0.date >= start && $0.date < end }.map(\.price).reduce(0, +)
+    }
+    
+    func chartData() -> [CoffeeDay] {
+        var days = [CoffeeDay]()
+        for day in 0..<7 {
+            let start = Calendar.current.date(byAdding: .day, value: day, to: .now.startOfWeek ?? .now) ?? .now
+            let end = Calendar.current.date(byAdding: .day, value: day + 1, to: .now.startOfWeek ?? .now) ?? .now
+            let coffes = coffees.filter { $0.date >= start && $0.date < end }
+            let prices = coffes.map(\.price)
+            let cost = prices.reduce(0, +)
+            days.append(CoffeeDay(date: start, cost: cost))
+        }
+        return days
     }
 }
 
