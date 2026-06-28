@@ -14,9 +14,7 @@ struct ListView: View {
     var body: some View {
         NavigationStack {
             List(coffees) { coffee in
-                NavigationLink {
-                    CoffeeDetailView()
-                } label: {
+                NavigationLink(value: coffee) {
                     HStack {
                         Text(coffee.type.abbreviation ?? "ES")
                             .font(.headline)
@@ -42,6 +40,9 @@ struct ListView: View {
                         }
                     }
                 }
+            }
+            .navigationDestination(for: Coffee.self) { coffee in
+                CoffeeDetailView()
             }
             .scrollContentBackground(.hidden)
             .background(.cremaBackground)
