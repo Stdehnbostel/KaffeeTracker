@@ -54,6 +54,10 @@ struct KaffeeTrackerApp: App {
                 Tab("Übersicht", systemImage: "list.dash") {
                     ListView()
                 }
+                
+                Tab("Sorten", systemImage: "book.circle") {
+                    CoffeeTypesListView()
+                }
             }
             .tint(.cremaInk)
         }

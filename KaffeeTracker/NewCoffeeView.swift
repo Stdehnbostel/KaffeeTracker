@@ -67,7 +67,7 @@ struct NewCoffeeView: View {
                     HStack {
                         Text("Menge")
                         Spacer()
-                        textField
+                        TextFieldWithUnit(unit: "ml", amount: $volume)
                             .frame(width: 80)
                     }
                 }
