@@ -51,7 +51,7 @@ struct KaffeeTrackerApp: App {
                     HomeView()
                 }
                 
-                Tab("Übersicht", systemImage: "list.dash") {
+                Tab("Verlauf", systemImage: "list.dash") {
                     ListView()
                 }
                 

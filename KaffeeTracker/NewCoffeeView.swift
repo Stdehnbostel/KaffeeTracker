@@ -22,29 +22,11 @@ struct NewCoffeeView: View {
         _volume = State(initialValue: defaultType.defaultVolume)
     }
     
-    var textField: some View {
-        let text = Binding<String>(
-            get: {
-                volume > 0 ? "\(volume) ml" : "0 ml"
-            }
-            , set: { text in
-                let text = text.replacingOccurrences(of: "ml", with: "").trimmingCharacters(in: .whitespaces)
-                print(text)
-                let newVolume = Int(text) ?? 0
-                print(newVolume)
-                volume = newVolume
-            }
-        )
-        
-        return TextField("Menge", text: text)
-            .keyboardType(.numberPad)
-    }
-    
     var body: some View {
         NavigationStack {
             Form {
                 Section {
-                    
+                    CoffeeFormView(type: $selectedType, price: $price, amount: $volume, coffeeTypes: types)
                     Picker("Sorte", selection: $selectedType) {
                         ForEach(types, id: \.self) {
                             Text($0.name).tag($0)
@@ -71,7 +53,9 @@ struct NewCoffeeView: View {
                             .frame(width: 80)
                     }
                 }
-                Button("Speichern", action: save)
+                Section {
+                    Button("Speichern", action: save)
+                }
                 .font(.title3.bold())
                 .frame(maxWidth: .infinity)
                 .foregroundStyle(.cremaFoam)

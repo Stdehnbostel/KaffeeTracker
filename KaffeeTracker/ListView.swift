@@ -42,11 +42,11 @@ struct ListView: View {
                 }
             }
             .navigationDestination(for: Coffee.self) { coffee in
-                CoffeeDetailView()
+                CoffeeDetailView(coffee: coffee)
             }
             .scrollContentBackground(.hidden)
             .background(.cremaBackground)
-            .navigationTitle("Übersicht")
+            .navigationTitle("Verlauf")
         }
     }
 }
