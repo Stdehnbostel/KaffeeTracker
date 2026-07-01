@@ -11,6 +11,7 @@ import SwiftUI
 struct CoffeeTypesListView: View {
     @Query(sort: \CoffeeType.name) var types: [CoffeeType]
     
+    
     var body: some View {
         NavigationStack {
             List(types) { type in
@@ -23,6 +24,15 @@ struct CoffeeTypesListView: View {
             .scrollContentBackground(.hidden)
             .background(.cremaBackground)
             .navigationTitle("Sorten")
+            .toolbar {
+                ToolbarItem {
+                    Button {
+                        
+                    } label: {
+                        Label("Hinzufügen", systemImage: "plus")
+                    }
+                }
+            }
             
         }
     }

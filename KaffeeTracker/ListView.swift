@@ -10,6 +10,8 @@ import SwiftUI
 
 struct ListView: View {
     @Query(sort: \Coffee.date) var coffees: [Coffee]
+    @Query(sort: \CoffeeType.defaultPrice) var coffeeTypes: [CoffeeType]
+    @State private var showNewCoffeSheet = false
     
     var body: some View {
         NavigationStack {
@@ -47,6 +49,22 @@ struct ListView: View {
             .scrollContentBackground(.hidden)
             .background(.cremaBackground)
             .navigationTitle("Verlauf")
+            .toolbar {
+                ToolbarItem {
+                    Button {
+                        showNewCoffeSheet = true
+                    } label: {
+                        Label("Hinzufügen", systemImage: "plus")
+                    }
+                }
+            }
+            .sheet(isPresented: $showNewCoffeSheet) {
+                if let defaultSelection = coffeeTypes.first {
+                    NewCoffeeView(defaultType: defaultSelection)
+                } else {
+                    Text("Es können derzeit keine Kaffees hinzugefügt werden.")
+                }
+            }
         }
     }
 }
