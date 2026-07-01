@@ -43,7 +43,7 @@ struct CoffeeFormView: View {
 
 #Preview {
     struct Preview: View {
-        @State private var coffee = Coffee(name: "Esspresso", price: 2.4, volume: 60, type: CoffeeType(name: "Espresso", defaultVolume: 60, defaultPrice: 2.4, defaultCaffeine: 60), date: .now)
+        @State private var coffee = Coffee(price: 2.4, volume: 60, type: CoffeeType(name: "Espresso", defaultVolume: 60, defaultPrice: 2.4, defaultCaffeine: 60), date: .now)
         var body: some View {
             CoffeeFormView(type: $coffee.type, price: $coffee.price, amount: $coffee.volume, coffeeTypes: [])
         }

@@ -63,11 +63,10 @@ struct CoffeeDetailView: View {
         coffee.type = type
         coffee.price = price
         coffee.volume = volume
-        coffee.name = coffee.type.name
         dismiss()
     }
 }
 
 #Preview {
-    CoffeeDetailView(coffee: Coffee(name: "Espresso", price: 2.4, volume: 60, type: CoffeeType(name: "Espresso", defaultVolume: 60, defaultPrice: 2.4, defaultCaffeine: 60), date: .now))
+    CoffeeDetailView(coffee: Coffee(price: 2.4, volume: 60, type: CoffeeType(name: "Espresso", defaultVolume: 60, defaultPrice: 2.4, defaultCaffeine: 60), date: .now))
 }

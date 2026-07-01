@@ -10,17 +10,19 @@ import SwiftData
 
 @Model
 class Coffee {
-    var name: String
+    var type: CoffeeType
     var price: Double
     var volume: Int
-    var type: CoffeeType
     var date: Date
     
-    init(name: String, price: Double, volume: Int, type: CoffeeType, date: Date) {
-        self.name = name
+    init(price: Double, volume: Int, type: CoffeeType, date: Date) {
         self.price = price
         self.volume = volume
         self.type = type
         self.date = date
+    }
+    
+    var name: String {
+        type.name
     }
 }

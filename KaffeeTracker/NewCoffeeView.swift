@@ -78,7 +78,7 @@ struct NewCoffeeView: View {
     }
     func save() {
         do {
-            let coffee = Coffee(name: selectedType.name, price: price, volume: volume, type: selectedType, date: .now)
+            let coffee = Coffee(price: price, volume: volume, type: selectedType, date: .now)
             modelContext.insert(coffee)
             try modelContext.save()
             dismiss()
