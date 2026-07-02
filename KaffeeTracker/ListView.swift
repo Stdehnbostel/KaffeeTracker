@@ -8,9 +8,16 @@
 import SwiftData
 import SwiftUI
 
-struct ListView: View {
+struct ListView: View
+{
+    static var descriptor: FetchDescriptor<CoffeeType> {
+        var descriptor = FetchDescriptor<CoffeeType>(sortBy: [SortDescriptor(\.defaultPrice, order: .forward)])
+        descriptor.fetchLimit = 1
+        return descriptor
+    }
+    
+    @Query(descriptor) var coffeeTypes: [CoffeeType]
     @Query(sort: \Coffee.date) var coffees: [Coffee]
-    @Query(sort: \CoffeeType.defaultPrice) var coffeeTypes: [CoffeeType]
     @State private var showNewCoffeSheet = false
     
     var body: some View {

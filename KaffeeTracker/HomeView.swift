@@ -16,7 +16,13 @@ struct CoffeeDay: Identifiable {
 }
 
 struct HomeView: View {
-    @Query(sort: \CoffeeType.defaultPrice) var coffeeTypes: [CoffeeType]
+    static var descriptor: FetchDescriptor<CoffeeType> {
+        var descriptor = FetchDescriptor<CoffeeType>(sortBy: [SortDescriptor(\.defaultPrice, order: .forward)])
+        descriptor.fetchLimit = 1
+        return descriptor
+    }
+    
+    @Query(descriptor) var coffeeTypes: [CoffeeType]
     @Query(sort: \Coffee.date) var coffees: [Coffee]
     @State private var showNewCoffeSheet: Bool = false
     
