@@ -25,13 +25,7 @@ struct CoffeeDetailView: View {
     
     var body: some View {
         VStack {
-            Text(coffee.type.abbreviation ?? "ES")
-                .font(.title2)
-                .padding(20)
-                .background(.cremaFoam)
-                .clipShape(.rect(cornerRadius: 15))
-            Text(coffee.type.name)
-                .font(.title.bold())
+            CoffeeHeaderView(abbreviation: coffee.type.abbreviation ?? "ES", name: coffee.type.name)
             Form {
                 CoffeeFormView(type: $type, price: $price, amount: $volume, coffeeTypes: coffeeTypes)
                 Section {

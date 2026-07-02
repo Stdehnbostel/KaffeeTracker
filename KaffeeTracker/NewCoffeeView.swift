@@ -24,47 +24,29 @@ struct NewCoffeeView: View {
     
     var body: some View {
         NavigationStack {
-            Form {
-                Section {
+            VStack {
+                CoffeeHeaderView(abbreviation: selectedType.abbreviation ?? "ES", name: selectedType.name)
+                Form {
                     CoffeeFormView(type: $selectedType, price: $price, amount: $volume, coffeeTypes: types)
-                    Picker("Sorte", selection: $selectedType) {
-                        ForEach(types, id: \.self) {
-                            Text($0.name).tag($0)
+                        .tint(.cremaEspresso)
+                        .onChange(of: selectedType) {
+                            price = selectedType.defaultPrice
+                            volume = selectedType.defaultVolume
                         }
+                    Section {
+                        Button("Speichern", action: save)
                     }
-                    .pickerStyle(.menu)
-                    .tint(.cremaEspresso)
-                    .onChange(of: selectedType) {
-                        price = selectedType.defaultPrice
-                        volume = selectedType.defaultVolume
-                    }
+                    .font(.title3.bold())
+                    .frame(maxWidth: .infinity)
+                    .foregroundStyle(.cremaFoam)
+                    .listRowBackground(Color(.cremaEspresso))
                 }
-                Section {
-                    HStack {
-                        Text("Preis")
-                        Spacer()
-                        TextField("Preis", value: $price, format: .currency(code: "Eur"))
-                            .frame(width: 80)
-                    }
-                    HStack {
-                        Text("Menge")
-                        Spacer()
-                        TextFieldWithUnit(unit: "ml", amount: $volume)
-                            .frame(width: 80)
-                    }
-                }
-                Section {
-                    Button("Speichern", action: save)
-                }
-                .font(.title3.bold())
-                .frame(maxWidth: .infinity)
-                .foregroundStyle(.cremaFoam)
-                .listRowBackground(Color(.cremaEspresso))
+                .listSectionSpacing(.compact)
+                .scrollContentBackground(.hidden)
             }
-            .listSectionSpacing(.compact)
-            .scrollContentBackground(.hidden)
             .background(.cremaBackground)
             .navigationTitle("Hinzufügen")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .automatic) {
                     Button {
