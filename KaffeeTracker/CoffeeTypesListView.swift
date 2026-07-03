@@ -16,7 +16,7 @@ struct CoffeeTypesListView: View {
         NavigationStack {
             List(types) { type in
                 NavigationLink {
-                    CoffeeTypeView()
+                    CoffeeTypeView(type: type)
                 } label: {
                     Text(type.name)
                 }
