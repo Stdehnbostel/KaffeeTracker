@@ -25,25 +25,28 @@ struct CoffeeTypeView: View {
     }
     
     var body: some View {
-        Form {
-            Section {
-                TextField("Name", text: $name)
-                TextField("Abbreviation", text: $abbreviation)
+        VStack {
+            CoffeeHeaderView(abbreviation: type.abbreviation ?? "", name: type.name)
+            Form {
+                Section {
+                    TextField("Name", text: $name)
+                    TextField("Abbreviation", text: $abbreviation)
+                }
+                Section {
+                    TextFieldWithUnit(unit: "ml", amount: $defaultVolume)
+                    TextField("Default Price", value: $defaultPrice, format: .currency(code: "EUR") )
+                    TextFieldWithUnit(unit: "mg", amount: $defaultCaffeine)
+                }
+                Section {
+                    Button("Speichern", action: save)
+                        .font(.title3.bold())
+                        .frame(maxWidth: .infinity)
+                        .foregroundStyle(.cremaFoam)
+                        .listRowBackground(Color(.cremaEspresso))
+                }
             }
-            Section {
-                TextFieldWithUnit(unit: "ml", amount: $defaultVolume)
-                TextField("Default Price", value: $defaultPrice, format: .currency(code: "EUR") )
-                TextFieldWithUnit(unit: "mg", amount: $defaultCaffeine)
-            }
-            Section {
-                Button("Speichern", action: save)
-                    .font(.title3.bold())
-                    .frame(maxWidth: .infinity)
-                    .foregroundStyle(.cremaFoam)
-                    .listRowBackground(Color(.cremaEspresso))
-            }
+            .scrollContentBackground(.hidden)
         }
-        .scrollContentBackground(.hidden)
         .background(.cremaBackground)
         .navigationTitle("Sorte bearbeiten")
         .navigationBarTitleDisplayMode(.inline)
