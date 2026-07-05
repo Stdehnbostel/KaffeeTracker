@@ -25,12 +25,8 @@ struct ListView: View
             List(coffees) { coffee in
                 NavigationLink(value: coffee) {
                     HStack {
-                        Text(coffee.type.abbreviation ?? "ES")
-                            .font(.headline)
-                            .foregroundStyle(.cremaInk)
-                            .padding()
-                            .background(.cremaFoam)
-                            .clipShape(.rect(cornerRadius: 15))
+                        CoffeeIconView(abbreviation: coffee.type.abbreviation ?? "ES")
+                            .frame(width: 64, height: 64)
                             .padding(.trailing, 4)
                         VStack {
                             HStack {

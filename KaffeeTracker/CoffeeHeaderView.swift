@@ -12,11 +12,8 @@ struct CoffeeHeaderView: View {
     let name: String
     
     var body: some View {
-        Text(abbreviation)
-            .font(.title2)
-            .padding(20)
-            .background(.cremaFoam)
-            .clipShape(.rect(cornerRadius: 15))
+        CoffeeIconView(abbreviation: abbreviation)
+            .frame(height: 64)
         Text(name)
             .font(.title.bold())
     }

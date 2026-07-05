@@ -16,6 +16,7 @@ struct CoffeeCardView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text(title)
+                .font(.title3)
                 .padding(.bottom)
             Grid(alignment: .leading) {
                 GridRow {

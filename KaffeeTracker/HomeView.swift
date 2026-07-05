@@ -39,6 +39,7 @@ struct HomeView: View {
                     
                     VStack(alignment: .leading) {
                         Text("Verlauf")
+                            .font(.title3)
                             .padding(.bottom)
                         Chart(chartData()) { day in
                             BarMark(

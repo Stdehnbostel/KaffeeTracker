@@ -18,7 +18,12 @@ struct CoffeeTypesListView: View {
                 NavigationLink {
                     CoffeeTypeView(type: type)
                 } label: {
-                    Text(type.name)
+                    HStack {
+                        CoffeeIconView(abbreviation: type.abbreviation ?? "ES")
+                            .frame(width: 64, height: 64)
+                            .padding(.trailing, 4)
+                        Text(type.name)
+                    }
                 }
             }
             .scrollContentBackground(.hidden)
