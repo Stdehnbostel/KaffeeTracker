@@ -43,9 +43,10 @@ struct HomeView: View {
                             .padding(.bottom)
                         Chart(chartData()) { day in
                             BarMark(
-                                x: .value("Tag", day.date.formatted()),
+                                x: .value("Tag", day.date.formatted(date: .numeric, time: .omitted)),
                                 y: .value("Ausgaben", day.cost))
                         }
+                        .chartYAxisLabel("Ausgaben (€)")
                     }
                     .padding()
                     .frame(maxWidth: .infinity)
