@@ -13,6 +13,7 @@ struct CoffeeDetailView: View {
     @Query(sort: \CoffeeType.defaultPrice) var coffeeTypes: [CoffeeType]
     @Bindable var coffee: Coffee
     @State private var type: CoffeeType
+    @State private var name: String
     @State private var price: Double
     @State private var volume: Int
     @State private var date: Date
@@ -23,13 +24,14 @@ struct CoffeeDetailView: View {
         _price = State(initialValue: coffee.price)
         _volume = State(initialValue: coffee.volume)
         _date = State(initialValue: coffee.date)
+        _name = State(initialValue: coffee.name)
     }
     
     var body: some View {
         VStack {
             CoffeeHeaderView(abbreviation: coffee.type.abbreviation ?? "ES", name: coffee.type.name)
             Form {
-                CoffeeFormView(type: $type, price: $price, amount: $volume, date: $date, coffeeTypes: coffeeTypes)
+                CoffeeFormView(type: $type, name: $name ,price: $price, amount: $volume, date: $date, coffeeTypes: coffeeTypes)
                 Section {
                     Button("Speichern", action: save)
                         .font(.title3.bold())
@@ -64,5 +66,5 @@ struct CoffeeDetailView: View {
 }
 
 #Preview {
-    CoffeeDetailView(coffee: Coffee(price: 2.4, volume: 60, type: CoffeeType(name: "Espresso", defaultVolume: 60, defaultPrice: 2.4, defaultCaffeine: 60), date: .now))
+    CoffeeDetailView(coffee: Coffee(type: CoffeeType(name: "Espresso", defaultVolume: 60, defaultPrice: 2.4, defaultCaffeine: 60), date: .now))
 }

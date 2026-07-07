@@ -13,6 +13,7 @@ struct NewCoffeeView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \CoffeeType.name) var types: [CoffeeType]
     @State private var selectedType: CoffeeType
+    @State private var name: String
     @State private var price: Double
     @State private var volume: Int
     @State private var date = Date.now
@@ -21,6 +22,7 @@ struct NewCoffeeView: View {
         _selectedType = State(initialValue: defaultType)
         _price = State(initialValue: defaultType.defaultPrice)
         _volume = State(initialValue: defaultType.defaultVolume)
+        _name = State(initialValue: defaultType.name)
     }
     
     var body: some View {
@@ -28,7 +30,7 @@ struct NewCoffeeView: View {
             VStack {
                 CoffeeHeaderView(abbreviation: selectedType.abbreviation ?? "ES", name: selectedType.name)
                 Form {
-                    CoffeeFormView(type: $selectedType, price: $price, amount: $volume, date: $date, coffeeTypes: types)
+                    CoffeeFormView(type: $selectedType, name: $name, price: $price, amount: $volume, date: $date, coffeeTypes: types)
                         .tint(.cremaEspresso)
                         .onChange(of: selectedType) {
                             price = selectedType.defaultPrice
@@ -61,7 +63,7 @@ struct NewCoffeeView: View {
     }
     func save() {
         do {
-            let coffee = Coffee(price: price, volume: volume, type: selectedType, date: date)
+            let coffee = Coffee(name: name, price: price, volume: volume, type: selectedType, date: date)
             modelContext.insert(coffee)
             try modelContext.save()
             dismiss()
