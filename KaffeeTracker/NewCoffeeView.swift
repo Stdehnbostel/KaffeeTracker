@@ -15,6 +15,7 @@ struct NewCoffeeView: View {
     @State private var selectedType: CoffeeType
     @State private var price: Double
     @State private var volume: Int
+    @State private var date = Date.now
     
     init(defaultType: CoffeeType) {
         _selectedType = State(initialValue: defaultType)
@@ -27,7 +28,7 @@ struct NewCoffeeView: View {
             VStack {
                 CoffeeHeaderView(abbreviation: selectedType.abbreviation ?? "ES", name: selectedType.name)
                 Form {
-                    CoffeeFormView(type: $selectedType, price: $price, amount: $volume, coffeeTypes: types)
+                    CoffeeFormView(type: $selectedType, price: $price, amount: $volume, date: $date, coffeeTypes: types)
                         .tint(.cremaEspresso)
                         .onChange(of: selectedType) {
                             price = selectedType.defaultPrice
@@ -60,20 +61,13 @@ struct NewCoffeeView: View {
     }
     func save() {
         do {
-            let coffee = Coffee(price: price, volume: volume, type: selectedType, date: .now)
+            let coffee = Coffee(price: price, volume: volume, type: selectedType, date: date)
             modelContext.insert(coffee)
             try modelContext.save()
             dismiss()
         } catch {
             
         }
-    }
-}
-
-extension NewCoffeeView {
-    class ViewModel {
-        
-        
     }
 }
 

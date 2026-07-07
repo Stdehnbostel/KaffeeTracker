@@ -15,19 +15,21 @@ struct CoffeeDetailView: View {
     @State private var type: CoffeeType
     @State private var price: Double
     @State private var volume: Int
+    @State private var date: Date
     
     init(coffee: Coffee) {
         self.coffee = coffee
         _type = State(initialValue: coffee.type)
         _price = State(initialValue: coffee.price)
         _volume = State(initialValue: coffee.volume)
+        _date = State(initialValue: coffee.date)
     }
     
     var body: some View {
         VStack {
             CoffeeHeaderView(abbreviation: coffee.type.abbreviation ?? "ES", name: coffee.type.name)
             Form {
-                CoffeeFormView(type: $type, price: $price, amount: $volume, coffeeTypes: coffeeTypes)
+                CoffeeFormView(type: $type, price: $price, amount: $volume, date: $date, coffeeTypes: coffeeTypes)
                 Section {
                     Button("Speichern", action: save)
                         .font(.title3.bold())
