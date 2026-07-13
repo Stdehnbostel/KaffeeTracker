@@ -9,9 +9,15 @@ import Charts
 import SwiftData
 import SwiftUI
 
+enum DiagramType: CaseIterable {
+    case price, nrOFCoffees, caffeine
+}
+
 struct CoffeeDay: Identifiable {
     var date: Date
     var cost: Double
+    var nrOfCoffees: Int
+    var caffeine: Int
     var id = UUID()
     
     var formattedShortDate: String {
@@ -28,7 +34,11 @@ struct HomeView: View {
     
     @Query(descriptor) var coffeeTypes: [CoffeeType]
     @Query(sort: \Coffee.date) var coffees: [Coffee]
+    @State private var diagramType = DiagramType.price
+    
     @State private var showNewCoffeSheet: Bool = false
+    
+    let diagramTypeNames: [DiagramType: String] = [.caffeine: "Koffein", .nrOFCoffees: "Anzahl", .price: "Preis"]
     
     
     var body: some View {
@@ -42,15 +52,40 @@ struct HomeView: View {
                         .padding(.bottom)
                     
                     VStack(alignment: .leading) {
-                        Text("Verlauf")
-                            .font(.title3)
-                            .padding(.bottom)
-                        Chart(chartData()) { day in
-                            BarMark(
-                                x: .value("Tag", day.formattedShortDate),
-                                y: .value("Ausgaben", day.cost))
+                        HStack {
+                            Text("Verlauf")
+                                .font(.title3)
+                            Spacer()
+                            Picker("Verlauf", selection: $diagramType) {
+                                ForEach(DiagramType.allCases, id: \.self) {
+                                    Text(diagramTypeNames[$0] ?? "").tag($0)
+                                }
+                            }
                         }
-                        .chartYAxisLabel("Ausgaben (€)")
+                        .padding(.bottom)
+                        switch diagramType {
+                        case .price:
+                            Chart(chartData()) { day in
+                                BarMark(
+                                    x: .value("Tag", day.formattedShortDate),
+                                    y: .value("Ausgaben", day.cost))
+                            }
+                            .chartYAxisLabel("Ausgaben (€)")
+                        case .nrOFCoffees:
+                            Chart(chartData()) { day in
+                                BarMark(
+                                    x: .value("Tag", day.formattedShortDate),
+                                    y: .value("Kaffees", day.nrOfCoffees))
+                            }
+                            .chartYAxisLabel("Kaffes")
+                        case .caffeine:
+                            Chart(chartData()) { day in
+                                BarMark(
+                                    x: .value("Tag", day.formattedShortDate),
+                                    y: .value("Koffein", day.caffeine))
+                            }
+                            .chartYAxisLabel("Koffein (mg)")
+                        }
                     }
                     .padding()
                     .frame(maxWidth: .infinity)
@@ -106,8 +141,11 @@ struct HomeView: View {
             let end = Calendar.current.date(byAdding: .day, value: day + 1, to: .now.startOfWeek ?? .now) ?? .now
             let coffes = coffees.filter { $0.date >= start && $0.date < end }
             let prices = coffes.map(\.price)
+            let caffeinePortions = coffes.map(\.type.defaultCaffeine)
+            let caffeine = caffeinePortions.reduce(0, +)
             let cost = prices.reduce(0, +)
-            days.append(CoffeeDay(date: start, cost: cost))
+            let nrOfCoffees = coffes.count
+            days.append(CoffeeDay(date: start, cost: cost, nrOfCoffees: nrOfCoffees, caffeine: caffeine))
         }
         return days
     }
