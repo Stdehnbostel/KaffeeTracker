@@ -66,10 +66,10 @@ struct NewCoffeeView: View {
             let coffee = Coffee(name: name, price: price, volume: volume, type: selectedType, date: date)
             modelContext.insert(coffee)
             try modelContext.save()
-            dismiss()
         } catch {
             
         }
+        dismiss()
     }
 }
 

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct CoffeeTypesListView: View {
     @Query(sort: \CoffeeType.name) var types: [CoffeeType]
-    
+    @State private var showNewCoffeeTypeSheet = false
     
     var body: some View {
         NavigationStack {
@@ -28,11 +28,14 @@ struct CoffeeTypesListView: View {
             }
             .scrollContentBackground(.hidden)
             .background(.cremaBackground)
+            .sheet(isPresented: $showNewCoffeeTypeSheet) {
+                NewCoffeeTypeView()
+            }
             .navigationTitle("Sorten")
             .toolbar {
                 ToolbarItem {
                     Button {
-                        
+                        showNewCoffeeTypeSheet = true
                     } label: {
                         Label("Hinzufügen", systemImage: "plus")
                     }
