@@ -5,18 +5,24 @@
 //  Created by Stefan on 11.06.26.
 //
 
+import OSLog
 import SwiftData
 import SwiftUI
 
 struct CoffeeDetailView: View {
     @Environment(\.dismiss) var dismiss
     @Query(sort: \CoffeeType.defaultPrice) var coffeeTypes: [CoffeeType]
+    @Environment(\.modelContext) private var modelContext
     @Bindable var coffee: Coffee
     @State private var type: CoffeeType
     @State private var name: String
     @State private var price: Double
     @State private var volume: Int
     @State private var date: Date
+    
+    @State private var showDeleteErrorAlert = false
+    
+    let logger = Logger(subsystem: "com.stdehnbostel.KaffeeTracker", category: "CoffeeDetailView")
     
     init(coffee: Coffee) {
         self.coffee = coffee
@@ -40,13 +46,13 @@ struct CoffeeDetailView: View {
                         .listRowBackground(Color(.cremaEspresso))
                 }
                 Section {
-                    Button("Löschen") {
-                        
-                    }
+                    Button("Löschen", action: delete)
                     .font(.title3.bold())
                     .frame(maxWidth: .infinity)
                     .foregroundStyle(.cremaDanger)
-                    
+                    .alert("Fehler beim Löschen", isPresented: $showDeleteErrorAlert) {
+                        Button("Ok") {}
+                    }
                 }
             }
             .listSectionSpacing(.compact)
@@ -61,6 +67,17 @@ struct CoffeeDetailView: View {
         coffee.type = type
         coffee.price = price
         coffee.volume = volume
+        dismiss()
+    }
+    
+    func delete() {
+        do {
+            modelContext.delete(coffee)
+            try modelContext.save()
+        } catch {
+            showDeleteErrorAlert = true
+            logger.error("Error deleting coffee: \(error.localizedDescription)")
+        }
         dismiss()
     }
 }
