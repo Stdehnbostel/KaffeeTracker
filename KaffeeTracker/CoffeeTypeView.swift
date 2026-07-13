@@ -5,15 +5,23 @@
 //  Created by Stefan on 28.06.26.
 //
 
+import OSLog
+import SwiftData
 import SwiftUI
 
 struct CoffeeTypeView: View {
+    @Environment(\.dismiss) var dismiss
+    @Environment(\.modelContext) var modelContext
     @Bindable var type: CoffeeType
     @State private var name: String
     @State private var defaultVolume: Int
     @State private var defaultPrice: Double
     @State private var defaultCaffeine: Int
     @State private var abbreviation: String
+    
+    @State private var showDeleteErrorAlert = false
+    
+    let logger = Logger(subsystem: "com.stdehnbostel.KaffeeTracker", category: "CoffeeTypeView")
     
     init(type: CoffeeType, name: String = "", defaultVolume: Int = 0, defaultPrice: Double = 0.0, defaultCaffeine: Int = 0, abbreviation: String = "") {
         self.type = type
@@ -44,8 +52,18 @@ struct CoffeeTypeView: View {
                         .foregroundStyle(.cremaFoam)
                         .listRowBackground(Color(.cremaEspresso))
                 }
+                Section {
+                    Button("Löschen", action: delete)
+                    .font(.title3.bold())
+                    .frame(maxWidth: .infinity)
+                    .foregroundStyle(.cremaDanger)
+                    .alert("Fehler beim Löschen", isPresented: $showDeleteErrorAlert) {
+                        Button("Ok") {}
+                    }
+                }
             }
             .scrollContentBackground(.hidden)
+            .listSectionSpacing(.compact)
         }
         .background(.cremaBackground)
         .navigationTitle("Sorte bearbeiten")
@@ -58,6 +76,17 @@ struct CoffeeTypeView: View {
         type.defaultPrice = defaultPrice
         type.defaultCaffeine = defaultCaffeine
         type.abbreviation = abbreviation != "" ? abbreviation : nil
+    }
+    
+    func delete() {
+        do {
+            modelContext.delete(type)
+            try modelContext.save()
+        } catch {
+            showDeleteErrorAlert = true
+            logger.error("Error deleting coffee: \(error.localizedDescription)")
+        }
+        dismiss()
     }
 }
 
