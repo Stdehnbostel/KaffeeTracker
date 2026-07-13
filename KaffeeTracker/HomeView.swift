@@ -13,6 +13,10 @@ struct CoffeeDay: Identifiable {
     var date: Date
     var cost: Double
     var id = UUID()
+    
+    var formattedShortDate: String {
+        date.formatted(.dateTime.day().month(.twoDigits))
+    }
 }
 
 struct HomeView: View {
@@ -43,7 +47,7 @@ struct HomeView: View {
                             .padding(.bottom)
                         Chart(chartData()) { day in
                             BarMark(
-                                x: .value("Tag", day.date.formatted(date: .numeric, time: .omitted)),
+                                x: .value("Tag", day.formattedShortDate),
                                 y: .value("Ausgaben", day.cost))
                         }
                         .chartYAxisLabel("Ausgaben (€)")
