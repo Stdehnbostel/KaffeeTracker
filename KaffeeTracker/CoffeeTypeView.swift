@@ -37,13 +37,33 @@ struct CoffeeTypeView: View {
             CoffeeHeaderView(abbreviation: type.abbreviation ?? "", name: type.name)
             Form {
                 Section {
-                    TextField("Name", text: $name)
-                    TextField("Abbreviation", text: $abbreviation)
+                    HStack {
+                        Text("Bezeichnung")
+                        TextField("Bezeichnung", text: $name)
+                            .multilineTextAlignment(.trailing)
+                    }
+                    HStack {
+                        Text("Kürzel")
+                        TextField("Kürzel", text: $abbreviation)
+                            .multilineTextAlignment(.trailing)
+                    }
                 }
                 Section {
-                    TextFieldWithUnit(unit: "ml", amount: $defaultVolume)
-                    TextField("Default Price", value: $defaultPrice, format: .currency(code: "EUR") )
-                    TextFieldWithUnit(unit: "mg", amount: $defaultCaffeine)
+                    HStack {
+                        Text("Menge")
+                        TextFieldWithUnit(unit: "ml", amount: $defaultVolume)
+                            .multilineTextAlignment(.trailing)
+                    }
+                    HStack {
+                        Text("Preis")
+                        TextField("Standard Preis", value: $defaultPrice, format: .currency(code: "EUR") )
+                            .multilineTextAlignment(.trailing)
+                    }
+                    HStack {
+                        Text("Koffeingehalt")
+                        TextFieldWithUnit(unit: "mg", amount: $defaultCaffeine)
+                            .multilineTextAlignment(.trailing)
+                    }
                 }
                 Section {
                     Button("Speichern", action: save)
