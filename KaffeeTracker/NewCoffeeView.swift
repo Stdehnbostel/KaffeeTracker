@@ -5,6 +5,7 @@
 //  Created by Stefan on 11.06.26.
 //
 
+import OSLog
 import SwiftData
 import SwiftUI
 
@@ -17,6 +18,10 @@ struct NewCoffeeView: View {
     @State private var price: Double
     @State private var volume: Int
     @State private var date = Date.now
+    
+    @State private var showErrorAlert = false
+    
+    let logger = Logger(subsystem: "com.stdehnbostel.KaffeeTracker", category: "NewCoffeeView")
     
     init(defaultType: CoffeeType) {
         _selectedType = State(initialValue: defaultType)
@@ -59,6 +64,11 @@ struct NewCoffeeView: View {
                     }
                 }
             }
+            .alert("Ein Fehler ist aufgetreten.", isPresented: $showErrorAlert) {
+                Button("Ok") { }
+            } message: {
+                Text("Kaffee konnte nicht gespeichert werden. Versuche es später erneut.")
+            }
         }
     }
     func save() {
@@ -67,7 +77,8 @@ struct NewCoffeeView: View {
             modelContext.insert(coffee)
             try modelContext.save()
         } catch {
-            
+            showErrorAlert = true
+            logger.error("Error saving CoffeeType: \(error.localizedDescription)")
         }
         dismiss()
     }
