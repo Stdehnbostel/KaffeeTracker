@@ -39,6 +39,7 @@ struct HomeView: View {
     @State private var showNewCoffeSheet: Bool = false
     
     let diagramTypeNames: [DiagramType: String] = [.caffeine: "Koffein", .nrOFCoffees: "Anzahl", .price: "Preis"]
+    let typeLabels: [DiagramType: String] = [.caffeine: "mg", .nrOFCoffees: "Stk", .price: "€"]
     
     
     var body: some View {
@@ -63,29 +64,24 @@ struct HomeView: View {
                             }
                         }
                         .padding(.bottom)
-                        switch diagramType {
-                        case .price:
-                            Chart(chartData()) { day in
+                        Chart(chartData()) { day in
+                            switch diagramType {
+                            case .price:
                                 BarMark(
                                     x: .value("Tag", day.formattedShortDate),
                                     y: .value("Ausgaben", day.cost))
-                            }
-                            .chartYAxisLabel("Ausgaben (€)")
-                        case .nrOFCoffees:
-                            Chart(chartData()) { day in
+                            case .nrOFCoffees:
                                 BarMark(
                                     x: .value("Tag", day.formattedShortDate),
                                     y: .value("Kaffees", day.nrOfCoffees))
-                            }
-                            .chartYAxisLabel("Kaffes")
-                        case .caffeine:
-                            Chart(chartData()) { day in
+                            case .caffeine:
                                 BarMark(
                                     x: .value("Tag", day.formattedShortDate),
                                     y: .value("Koffein", day.caffeine))
                             }
-                            .chartYAxisLabel("Koffein (mg)")
                         }
+                        .chartYAxisLabel(typeLabels[diagramType] ?? "")
+                        .foregroundStyle(.cremaMid)
                     }
                     .padding()
                     .frame(maxWidth: .infinity)
