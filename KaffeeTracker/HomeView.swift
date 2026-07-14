@@ -55,7 +55,6 @@ struct HomeView: View {
                     VStack(alignment: .leading) {
                         HStack {
                             Text("Verlauf")
-                                .font(.title3)
                             Spacer()
                             Picker("Verlauf", selection: $diagramType) {
                                 ForEach(DiagramType.allCases, id: \.self) {

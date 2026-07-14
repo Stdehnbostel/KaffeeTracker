@@ -16,25 +16,32 @@ struct CoffeeCardView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text(title)
-                .font(.title3)
                 .padding(.bottom)
-            Grid(alignment: .leading) {
+            Grid(alignment: .leading, verticalSpacing: 8) {
                 GridRow {
                     HStack {
                         VStack(alignment: .leading) {
-                            Text("Kaffees")
+                            HStack {
+                                Image(systemName: "cup.and.heat.waves.fill")
+                                Text("Kaffees")
+                            }
                                 .font(.caption)
+                                .foregroundStyle(.cremaMid)
                             Text(String(numberOfCoffees))
-                                .font(.headline)
+                                .font(.title3.bold())
                         }
                         Spacer()
                     }
                     HStack {
                         VStack(alignment: .leading) {
-                            Text("Kosten")
+                            HStack {
+                                Image(systemName: "eurosign")
+                                Text("Kosten")
+                            }
                                 .font(.caption)
+                                .foregroundStyle(.cremaMid)
                             Text(cost.formatted(.currency(code: "EUR")))
-                                .font(.headline)
+                                .font(.title3.bold())
                         }
                         Spacer()
                     }
@@ -43,19 +50,27 @@ struct CoffeeCardView: View {
                 GridRow {
                     HStack {
                         VStack(alignment: .leading) {
-                            Text("Menge")
+                            HStack {
+                                Image(systemName: "drop")
+                                Text("Menge")
+                            }
                                 .font(.caption)
+                                .foregroundStyle(.cremaMid)
                             Text("\(volume) ml")
-                                .font(.headline)
+                                .font(.title3.bold())
                         }
                         Spacer()
                     }
                     HStack {
                         VStack(alignment: .leading) {
-                            Text("Koffein")
+                            HStack {
+                                Image(systemName: "bolt")
+                                Text("Koffein")
+                            }
                                 .font(.caption)
+                                .foregroundStyle(.cremaMid)
                             Text("416 mg")
-                                .font(.headline)
+                                .font(.title3.bold())
                         }
                         Spacer()
                     }
