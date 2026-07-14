@@ -39,7 +39,20 @@ struct NewCoffeeTypeView: View {
                     Text("Sorte konnte nicht gespeichert werden. Versuche es später erneut.")
                 }
             }
+            .scrollContentBackground(.hidden)
+            .navigationTitle("Sorte Hinzufügen")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .automatic) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Label("Schließen", systemImage: "xmark")
+                    }
+                }
+            }
         }
+        .background(Color(.cremaBackground))
     }
     
     func save() {
