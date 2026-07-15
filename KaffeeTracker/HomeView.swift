@@ -41,7 +41,6 @@ struct HomeView: View {
     let diagramTypeNames: [DiagramType: String] = [.caffeine: "Koffein", .nrOFCoffees: "Anzahl", .price: "Preis"]
     let typeLabels: [DiagramType: String] = [.caffeine: "mg", .nrOFCoffees: "Stk", .price: "€"]
     
-    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -103,7 +102,9 @@ struct HomeView: View {
                 }
                 
                 ToolbarItem(placement: .topBarLeading) {
-                    NavigationLink {} label: {
+                    NavigationLink {
+                        Settings()
+                    } label: {
                         Label("Einstellungen", systemImage: "gear")
                     }
                 }
