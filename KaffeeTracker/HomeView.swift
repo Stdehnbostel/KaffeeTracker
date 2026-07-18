@@ -41,6 +41,14 @@ struct HomeView: View {
     let diagramTypeNames: [DiagramType: String] = [.caffeine: "Koffein", .nrOFCoffees: "Anzahl", .price: "Preis"]
     let typeLabels: [DiagramType: String] = [.caffeine: "mg", .nrOFCoffees: "Stk", .price: "€"]
     
+    
+    @AppStorage("usePriceTarget") private var usePriceTarget = false
+    @AppStorage("priceTarget") private var priceTarget = 0.0
+    @AppStorage("useCaffeineTarget") private var useCaffeineTarget = false
+    @AppStorage("caffeineTarget") private var caffeineTarget = 0
+    @AppStorage("useCountTarget") private var useCountTarget = false
+    @AppStorage("countTarget") private var countTarget = 0
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -62,21 +70,48 @@ struct HomeView: View {
                             }
                         }
                         .padding(.bottom)
-                        Chart(chartData()) { day in
+                        Chart {
+                            ForEach(chartData()) { day in
+                                switch diagramType {
+                                case .price:
+                                    BarMark(
+                                        x: .value("Tag", day.formattedShortDate),
+                                        y: .value("Ausgaben", day.cost))
+                                    if usePriceTarget {
+                                        RuleMark(
+                                            y: .value("Ziel", priceTarget))
+                                    }
+                                case .nrOFCoffees:
+                                    BarMark(
+                                        x: .value("Tag", day.formattedShortDate),
+                                        y: .value("Kaffees", day.nrOfCoffees))
+                                case .caffeine:
+                                    BarMark(
+                                        x: .value("Tag", day.formattedShortDate),
+                                        y: .value("Koffein", day.caffeine))
+                                }
+                            }
                             switch diagramType {
                             case .price:
-                                BarMark(
-                                    x: .value("Tag", day.formattedShortDate),
-                                    y: .value("Ausgaben", day.cost))
+                                if usePriceTarget {
+                                    RuleMark(
+                                        y: .value("Ziel", priceTarget))
+                                    .foregroundStyle(.cremaInk)
+                                }
                             case .nrOFCoffees:
-                                BarMark(
-                                    x: .value("Tag", day.formattedShortDate),
-                                    y: .value("Kaffees", day.nrOfCoffees))
+                                if useCaffeineTarget {
+                                    RuleMark(
+                                        y: .value("Ziel", caffeineTarget))
+                                    .foregroundStyle(.cremaInk)
+                                }
                             case .caffeine:
-                                BarMark(
-                                    x: .value("Tag", day.formattedShortDate),
-                                    y: .value("Koffein", day.caffeine))
+                                if useCountTarget {
+                                    RuleMark(
+                                        y: .value("Ziel", countTarget))
+                                    .foregroundStyle(.cremaInk)
+                                }
                             }
+                            
                         }
                         .chartYAxisLabel(typeLabels[diagramType] ?? "")
                         .foregroundStyle(.cremaMid)

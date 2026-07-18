@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct Settings: View {
-    @State private var usePriceTarget = false
-    @State private var priceTarget = 0.0
-    @State private var useCaffeineTarget = false
-    @State private var caffeineTarget = 0
-    @State private var useCountTarget = false
-    @State private var countTarget = 0
+    @AppStorage("usePriceTarget") private var usePriceTarget = false
+    @AppStorage("priceTarget") private var priceTarget = 0.0
+    @AppStorage("useCaffeineTarget") private var useCaffeineTarget = false
+    @AppStorage("caffeineTarget") private var caffeineTarget = 0
+    @AppStorage("useCountTarget") private var useCountTarget = false
+    @AppStorage("countTarget") private var countTarget = 0
     
     var body: some View {
         Form {
