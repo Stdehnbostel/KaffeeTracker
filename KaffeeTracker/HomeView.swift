@@ -40,6 +40,7 @@ struct HomeView: View {
     
     let diagramTypeNames: [DiagramType: String] = [.caffeine: "Koffein", .nrOFCoffees: "Anzahl", .price: "Preis"]
     let typeLabels: [DiagramType: String] = [.caffeine: "mg", .nrOFCoffees: "Stk", .price: "€"]
+    let strokeStyle = StrokeStyle(lineWidth: 2, dash: [5.0])
     
     
     @AppStorage("usePriceTarget") private var usePriceTarget = false
@@ -77,10 +78,6 @@ struct HomeView: View {
                                     BarMark(
                                         x: .value("Tag", day.formattedShortDate),
                                         y: .value("Ausgaben", day.cost))
-                                    if usePriceTarget {
-                                        RuleMark(
-                                            y: .value("Ziel", priceTarget))
-                                    }
                                 case .nrOFCoffees:
                                     BarMark(
                                         x: .value("Tag", day.formattedShortDate),
@@ -97,18 +94,21 @@ struct HomeView: View {
                                     RuleMark(
                                         y: .value("Ziel", priceTarget))
                                     .foregroundStyle(.cremaDanger)
+                                    .lineStyle(strokeStyle)
                                 }
                             case .nrOFCoffees:
                                 if useCaffeineTarget {
                                     RuleMark(
                                         y: .value("Ziel", caffeineTarget))
                                     .foregroundStyle(.cremaDanger)
+                                    .lineStyle(strokeStyle)
                                 }
                             case .caffeine:
                                 if useCountTarget {
                                     RuleMark(
                                         y: .value("Ziel", countTarget))
                                     .foregroundStyle(.cremaDanger)
+                                    .lineStyle(strokeStyle)
                                 }
                             }
                             
