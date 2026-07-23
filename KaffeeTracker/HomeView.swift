@@ -54,7 +54,8 @@ struct HomeView: View {
         NavigationStack {
             ScrollView {
                 VStack {
-                    CoffeeCardView(title: "Diese Woche", numberOfCoffees: currentWeeksCoffees().count, cost: currentWeeksCoffees().map(\.price).reduce(0, +), volume: currentWeeksCoffees().map(\.volume).reduce(0, +))
+                    let weekly = currentWeeksCoffees()
+                    CoffeeCardView(title: "Diese Woche", numberOfCoffees: weekly.count, cost: weekly.map(\.price).reduce(0, +), volume: weekly.map(\.volume).reduce(0, +))
                         .padding(.bottom)
                     
                     CoffeeCardView(title: "Gesamt", numberOfCoffees: coffees.count, cost: coffees.map(\.price).reduce(0, +), volume: coffees.map(\.volume).reduce(0, +))
