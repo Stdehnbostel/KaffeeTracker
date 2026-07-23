@@ -96,19 +96,19 @@ struct HomeView: View {
                                 if usePriceTarget {
                                     RuleMark(
                                         y: .value("Ziel", priceTarget))
-                                    .foregroundStyle(.cremaInk)
+                                    .foregroundStyle(.cremaDanger)
                                 }
                             case .nrOFCoffees:
                                 if useCaffeineTarget {
                                     RuleMark(
                                         y: .value("Ziel", caffeineTarget))
-                                    .foregroundStyle(.cremaInk)
+                                    .foregroundStyle(.cremaDanger)
                                 }
                             case .caffeine:
                                 if useCountTarget {
                                     RuleMark(
                                         y: .value("Ziel", countTarget))
-                                    .foregroundStyle(.cremaInk)
+                                    .foregroundStyle(.cremaDanger)
                                 }
                             }
                             
