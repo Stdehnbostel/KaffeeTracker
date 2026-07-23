@@ -46,8 +46,8 @@ struct HomeView: View {
     @AppStorage("priceTarget") private var priceTarget = 0.0
     @AppStorage("useCaffeineTarget") private var useCaffeineTarget = false
     @AppStorage("caffeineTarget") private var caffeineTarget = 0
-    @AppStorage("useCountTarget") private var useCountTarget = false
-    @AppStorage("countTarget") private var countTarget = 0
+    @AppStorage("useCupTarget") private var useCountTarget = false
+    @AppStorage("cupTarget") private var countTarget = 0
     
     var body: some View {
         NavigationStack {
