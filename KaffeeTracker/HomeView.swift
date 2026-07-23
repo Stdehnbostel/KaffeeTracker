@@ -47,8 +47,8 @@ struct HomeView: View {
     @AppStorage("priceTarget") private var priceTarget = 0.0
     @AppStorage("useCaffeineTarget") private var useCaffeineTarget = false
     @AppStorage("caffeineTarget") private var caffeineTarget = 0
-    @AppStorage("useCupTarget") private var useCountTarget = false
-    @AppStorage("cupTarget") private var countTarget = 0
+    @AppStorage("useCupTarget") private var useCupTarget = false
+    @AppStorage("cupTarget") private var cupTarget = 0
     
     var body: some View {
         NavigationStack {
@@ -104,9 +104,9 @@ struct HomeView: View {
                                     .lineStyle(strokeStyle)
                                 }
                             case .caffeine:
-                                if useCountTarget {
+                                if useCupTarget {
                                     RuleMark(
-                                        y: .value("Ziel", countTarget))
+                                        y: .value("Ziel", cupTarget))
                                     .foregroundStyle(.cremaDanger)
                                     .lineStyle(strokeStyle)
                                 }
