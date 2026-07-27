@@ -24,6 +24,7 @@ struct CoffeeDay: Identifiable {
 }
 
 extension HomeView {
+    @Observable
     class ViewModel {
         var diagramType = DiagramType.price
         
