@@ -9,22 +9,6 @@ import Charts
 import SwiftData
 import SwiftUI
 
-enum DiagramType: CaseIterable {
-    case price, nrOFCoffees, caffeine
-}
-
-struct CoffeeDay: Identifiable {
-    var date: Date
-    var cost: Double
-    var nrOfCoffees: Int
-    var caffeine: Int
-    var id = UUID()
-    
-    var formattedShortDate: String {
-        date.formatted(.dateTime.day().month(.twoDigits))
-    }
-}
-
 struct HomeView: View {
     static var descriptor: FetchDescriptor<CoffeeType> {
         var descriptor = FetchDescriptor<CoffeeType>(sortBy: [SortDescriptor(\.defaultPrice, order: .forward)])
@@ -34,14 +18,8 @@ struct HomeView: View {
     
     @Query(descriptor) var coffeeTypes: [CoffeeType]
     @Query(sort: \Coffee.date) var coffees: [Coffee]
-    @State private var diagramType = DiagramType.price
     
-    @State private var showNewCoffeSheet: Bool = false
-    
-    let diagramTypeNames: [DiagramType: String] = [.caffeine: "Koffein", .nrOFCoffees: "Anzahl", .price: "Preis"]
-    let typeLabels: [DiagramType: String] = [.caffeine: "mg", .nrOFCoffees: "Stk", .price: "€"]
-    let strokeStyle = StrokeStyle(lineWidth: 2, dash: [5.0])
-    
+    @State private var viewModel = ViewModel()
     
     @AppStorage("usePriceTarget") private var usePriceTarget = false
     @AppStorage("priceTarget") private var priceTarget = 0.0
@@ -49,12 +27,14 @@ struct HomeView: View {
     @AppStorage("caffeineTarget") private var caffeineTarget = 0
     @AppStorage("useCupTarget") private var useCupTarget = false
     @AppStorage("cupTarget") private var cupTarget = 0
+   
+    let strokeStyle = StrokeStyle(lineWidth: 2, dash: [5.0])
     
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack {
-                    let weekly = currentWeeksCoffees()
+                    let weekly = viewModel.currentWeeksCoffees(for: coffees)
                     CoffeeCardView(title: "Diese Woche", numberOfCoffees: weekly.count, cost: weekly.map(\.price).reduce(0, +), volume: weekly.map(\.volume).reduce(0, +))
                         .padding(.bottom)
                     
@@ -65,16 +45,16 @@ struct HomeView: View {
                         HStack {
                             Text("Verlauf")
                             Spacer()
-                            Picker("Verlauf", selection: $diagramType) {
+                            Picker("Verlauf", selection: $viewModel.diagramType) {
                                 ForEach(DiagramType.allCases, id: \.self) {
-                                    Text(diagramTypeNames[$0] ?? "").tag($0)
+                                    Text(viewModel.diagramTypeNames[$0] ?? "").tag($0)
                                 }
                             }
                         }
                         .padding(.bottom)
                         Chart {
-                            ForEach(chartData()) { day in
-                                switch diagramType {
+                            ForEach(viewModel.chartData(for: coffees)) { day in
+                                switch viewModel.diagramType {
                                 case .price:
                                     BarMark(
                                         x: .value("Tag", day.formattedShortDate),
@@ -89,7 +69,7 @@ struct HomeView: View {
                                         y: .value("Koffein", day.caffeine))
                                 }
                             }
-                            switch diagramType {
+                            switch viewModel.diagramType {
                             case .price:
                                 if usePriceTarget {
                                     RuleMark(
@@ -114,7 +94,7 @@ struct HomeView: View {
                             }
                             
                         }
-                        .chartYAxisLabel(typeLabels[diagramType] ?? "")
+                        .chartYAxisLabel(viewModel.typeLabels[viewModel.diagramType] ?? "")
                         .foregroundStyle(.cremaMid)
                     }
                     .padding()
@@ -131,7 +111,7 @@ struct HomeView: View {
                 ToolbarItem(placement: .topBarTrailing)
                 {
                     Button {
-                        showNewCoffeSheet = true
+                        viewModel.showNewCoffeSheet = true
                     } label: {
                         Label("Hinzufügen", systemImage: "plus")
                     }
@@ -146,7 +126,7 @@ struct HomeView: View {
                 }
             }
             .background(.cremaBackground)
-            .sheet(isPresented: $showNewCoffeSheet) {
+            .sheet(isPresented: $viewModel.showNewCoffeSheet) {
                 if let defaultSelection = coffeeTypes.first {
                     NewCoffeeView(defaultType: defaultSelection)
                 } else {
@@ -154,32 +134,6 @@ struct HomeView: View {
                 }
             }
         }
-    }
-    
-    func currentWeeksCoffees() -> [Coffee] {
-        coffees.filter { $0.date >= .now.startOfWeek ?? .now }
-    }
-    
-    func costForDayOfTheWeek(_ day: Int) -> Double {
-        let start = Calendar.current.date(byAdding: .day, value: day, to: Date.now.startOfWeek ?? .now) ?? .now
-        let end = Calendar.current.date(byAdding: .day, value: day + 1, to: Date.now.startOfWeek ?? .now) ?? .now
-        return coffees.filter { $0.date >= start && $0.date < end }.map(\.price).reduce(0, +)
-    }
-    
-    func chartData() -> [CoffeeDay] {
-        var days = [CoffeeDay]()
-        for day in 0..<7 {
-            let start = Calendar.current.date(byAdding: .day, value: day, to: .now.startOfWeek ?? .now) ?? .now
-            let end = Calendar.current.date(byAdding: .day, value: day + 1, to: .now.startOfWeek ?? .now) ?? .now
-            let coffes = coffees.filter { $0.date >= start && $0.date < end }
-            let prices = coffes.map(\.price)
-            let caffeinePortions = coffes.map(\.type.defaultCaffeine)
-            let caffeine = caffeinePortions.reduce(0, +)
-            let cost = prices.reduce(0, +)
-            let nrOfCoffees = coffes.count
-            days.append(CoffeeDay(date: start, cost: cost, nrOfCoffees: nrOfCoffees, caffeine: caffeine))
-        }
-        return days
     }
 }
 
