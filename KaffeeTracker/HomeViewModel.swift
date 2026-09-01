@@ -7,42 +7,37 @@
 
 import Foundation
 
-enum DiagramType: CaseIterable {
-    case price, nrOFCoffees, caffeine
-}
-
-struct CoffeeDay: Identifiable {
-    var date: Date
-    var cost: Double
-    var nrOfCoffees: Int
-    var caffeine: Int
-    var id = UUID()
-    
-    var formattedShortDate: String {
-        date.formatted(.dateTime.day().month(.twoDigits))
-    }
-}
-
 extension HomeView {
+    // enum to represent all available metrics for display in the chart.
+    enum DiagramType: CaseIterable {
+        case price, nrOFCoffees, caffeine
+    }
+    
     @Observable
     class ViewModel {
+        /// The currently selected metric to show in the chart.
         var diagramType = DiagramType.price
         
         var showNewCoffeSheet: Bool = false
         
+        /// maps the DiagramType names to localizeable string keys.
         let diagramTypeNames: [DiagramType: String] = [.caffeine: "Koffein", .nrOFCoffees: "Anzahl", .price: "Preis"]
+        /// maps the DiagramType names to localizeable string keys for the chart labels.
         let typeLabels: [DiagramType: String] = [.caffeine: "mg", .nrOFCoffees: "Stk", .price: "€"]
         
+        /// takes an array of Coffees and and returns an filtered array conataining only the coffees, that belong to the current week.
         func currentWeeksCoffees(for coffees: [Coffee]) -> [Coffee] {
             coffees.filter { $0.date >= .now.startOfWeek ?? .now }
         }
         
+        // takes an array of Coffees and returns the total cost for a given weekday.
         func costForDayOfTheWeek(for coffees: [Coffee], _ day: Int) -> Double {
             let start = Calendar.current.date(byAdding: .day, value: day, to: Date.now.startOfWeek ?? .now) ?? .now
             let end = Calendar.current.date(byAdding: .day, value: day + 1, to: Date.now.startOfWeek ?? .now) ?? .now
             return coffees.filter { $0.date >= start && $0.date < end }.map(\.price).reduce(0, +)
         }
         
+        /// turns an array of Coffees into an array of CoffeeDays, that can be used for the chart.
         func chartData(for coffees: [Coffee]) -> [CoffeeDay] {
             var days = [CoffeeDay]()
             for day in 0..<7 {
@@ -56,6 +51,7 @@ extension HomeView {
                 let nrOfCoffees = coffes.count
                 days.append(CoffeeDay(date: start, cost: cost, nrOfCoffees: nrOfCoffees, caffeine: caffeine))
             }
+            
             return days
         }
     }

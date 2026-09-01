@@ -21,12 +21,12 @@ struct HomeView: View {
     
     @State private var viewModel = ViewModel()
     
-    @AppStorage("usePriceTarget") private var usePriceTarget = false
-    @AppStorage("priceTarget") private var priceTarget = 0.0
-    @AppStorage("useCaffeineTarget") private var useCaffeineTarget = false
-    @AppStorage("caffeineTarget") private var caffeineTarget = 0
-    @AppStorage("useCupTarget") private var useCupTarget = false
-    @AppStorage("cupTarget") private var cupTarget = 0
+    @AppStorage(SettingsKey.usePriceTarget) private var usePriceTarget = false
+    @AppStorage(SettingsKey.priceTarget) private var priceTarget = 0.0
+    @AppStorage(SettingsKey.useCaffeineTarget) private var useCaffeineTarget = false
+    @AppStorage(SettingsKey.caffeineTarget) private var caffeineTarget = 0
+    @AppStorage(SettingsKey.useCupTarget) private var useCupTarget = false
+    @AppStorage(SettingsKey.cupTarget) private var cupTarget = 0
    
     let strokeStyle = StrokeStyle(lineWidth: 2, dash: [5.0])
     
@@ -78,16 +78,16 @@ struct HomeView: View {
                                     .lineStyle(strokeStyle)
                                 }
                             case .nrOFCoffees:
-                                if useCaffeineTarget {
+                                if useCupTarget {
                                     RuleMark(
-                                        y: .value("Ziel", caffeineTarget))
+                                        y: .value("Ziel", cupTarget))
                                     .foregroundStyle(.cremaDanger)
                                     .lineStyle(strokeStyle)
                                 }
                             case .caffeine:
-                                if useCupTarget {
+                                if useCaffeineTarget {
                                     RuleMark(
-                                        y: .value("Ziel", cupTarget))
+                                        y: .value("Ziel", caffeineTarget))
                                     .foregroundStyle(.cremaDanger)
                                     .lineStyle(strokeStyle)
                                 }
