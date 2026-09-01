@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct Settings: View {
-    @AppStorage("usePriceTarget") private var usePriceTarget = false
-    @AppStorage("priceTarget") private var priceTarget = 0.0
-    @AppStorage("useCaffeineTarget") private var useCaffeineTarget = false
-    @AppStorage("caffeineTarget") private var caffeineTarget = 0
-    @AppStorage("useCupTarget") private var useCupTarget = false
-    @AppStorage("cupTarget") private var cupTarget = 0
+    @AppStorage(SettingsKey.usePriceTarget) private var usePriceTarget = false
+    @AppStorage(SettingsKey.priceTarget) private var priceTarget = 0.0
+    @AppStorage(SettingsKey.useCaffeineTarget) private var useCaffeineTarget = false
+    @AppStorage(SettingsKey.caffeineTarget) private var caffeineTarget = 0
+    @AppStorage(SettingsKey.useCupTarget) private var useCupTarget = false
+    @AppStorage(SettingsKey.cupTarget) private var cupTarget = 0
     
     @FocusState private var isFocused: Bool
     
