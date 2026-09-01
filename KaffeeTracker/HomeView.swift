@@ -22,7 +22,7 @@ struct HomeView: View {
     @State private var viewModel = ViewModel()
     
     @AppStorage(SettingsKey.usePriceTarget) private var usePriceTarget = false
-    @AppStorage(SettingsKey.priceTarget) private var priceTarget = 0.0
+    @AppStorage(SettingsKey.priceTarget) private var priceTarget = 0
     @AppStorage(SettingsKey.useCaffeineTarget) private var useCaffeineTarget = false
     @AppStorage(SettingsKey.caffeineTarget) private var caffeineTarget = 0
     @AppStorage(SettingsKey.useCupTarget) private var useCupTarget = false

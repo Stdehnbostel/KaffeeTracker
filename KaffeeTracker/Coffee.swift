@@ -8,15 +8,16 @@
 import Foundation
 import SwiftData
 
+/// thr Coffee model represents individual coffees that have been registered in the app.
 @Model
 class Coffee {
     var name: String
     var type: CoffeeType
-    var price: Double
+    var price: Decimal
     var volume: Int
     var date: Date
     
-    init(name: String, price: Double, volume: Int, type: CoffeeType, date: Date) {
+    init(name: String, price: Decimal, volume: Int, type: CoffeeType, date: Date) {
         self.name = name
         self.price = price
         self.volume = volume

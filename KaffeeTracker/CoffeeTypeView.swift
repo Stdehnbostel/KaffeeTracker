@@ -15,7 +15,7 @@ struct CoffeeTypeView: View {
     @Bindable var type: CoffeeType
     @State private var name: String
     @State private var defaultVolume: Int
-    @State private var defaultPrice: Double
+    @State private var defaultPrice: Decimal
     @State private var defaultCaffeine: Int
     @State private var abbreviation: String
     

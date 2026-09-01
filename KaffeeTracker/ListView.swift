@@ -33,7 +33,7 @@ struct ListView: View
                                 Text(coffee.name)
                                     .font(.body.bold())
                                 Spacer()
-                                Text(String(coffee.price))
+                                Text(coffee.price.formatted(.currency(code: "EUR")))
                             }
                             HStack {
                                 Text(coffee.date.formatted())

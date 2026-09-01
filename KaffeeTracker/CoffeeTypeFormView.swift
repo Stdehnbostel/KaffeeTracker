@@ -11,7 +11,7 @@ struct CoffeeTypeFormView: View {
     @Binding var name: String
     @Binding var abbreviation: String
     @Binding var defaultVolume: Int
-    @Binding var defaultPrice: Double
+    @Binding var defaultPrice: Decimal
     @Binding var defaultCaffeine: Int
     
     var body: some View {

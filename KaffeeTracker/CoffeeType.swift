@@ -8,6 +8,8 @@
 import Foundation
 import SwiftData
 
+/// The CoffeeType model represents all registered coffee types. Coffee types allow for the use of
+/// adjustable defaults for various common coffee types like espresso, cappucino, etc.
 @Model
 class CoffeeType: Codable {
     enum CodingKeys: CodingKey {
@@ -20,12 +22,12 @@ class CoffeeType: Codable {
     
     var name: String
     var defaultVolume: Int
-    var defaultPrice: Double
+    var defaultPrice: Decimal
     var defaultCaffeine: Int
     var abbreviation: String?
     var coffees = [Coffee]()
     
-    init(name: String, defaultVolume: Int, defaultPrice: Double, defaultCaffeine: Int, abbreviation: String? = nil) {
+    init(name: String, defaultVolume: Int, defaultPrice: Decimal, defaultCaffeine: Int, abbreviation: String? = nil) {
         self.name = name
         self.defaultVolume = defaultVolume
         self.defaultPrice = defaultPrice
@@ -38,7 +40,7 @@ class CoffeeType: Codable {
         
         name = try container.decode(String.self, forKey: .name)
         defaultVolume = try container.decode(Int.self, forKey: .defaultVolume)
-        defaultPrice = try container.decode(Double.self, forKey: .defaultPrice)
+        defaultPrice = try container.decode(Decimal.self, forKey: .defaultPrice)
         defaultCaffeine = try container.decode(Int.self, forKey: .defaultCaffeine)
         abbreviation = try container.decodeIfPresent(String.self, forKey: .abbreviation)
         print("Encoded abbreviation: \(String(describing: abbreviation))")

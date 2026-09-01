@@ -10,7 +10,7 @@ import SwiftUI
 struct CoffeeFormView: View {
     @Binding var type: CoffeeType
     @Binding var name: String
-    @Binding var price: Double
+    @Binding var price: Decimal
     @Binding var amount: Int
     @Binding var date: Date
     

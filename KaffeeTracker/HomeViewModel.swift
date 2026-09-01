@@ -34,7 +34,7 @@ extension HomeView {
         }
         
         // takes an array of Coffees and returns the total cost for a given weekday.
-        func costForDayOfTheWeek(for coffees: [Coffee], _ day: Int) -> Double {
+        func costForDayOfTheWeek(for coffees: [Coffee], _ day: Int) -> Decimal {
             let start = Calendar.current.date(byAdding: .day, value: day, to: Date.now.startOfWeek ?? .now) ?? .now
             let end = Calendar.current.date(byAdding: .day, value: day + 1, to: Date.now.startOfWeek ?? .now) ?? .now
             return coffees.filter { $0.date >= start && $0.date < end }.map(\.price).reduce(0, +)

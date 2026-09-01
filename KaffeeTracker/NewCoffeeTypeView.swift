@@ -14,7 +14,7 @@ struct NewCoffeeTypeView: View {
     @Environment(\.dismiss) var dismiss
     @State private var name = "Name"
     @State private var defaultVolume = 0
-    @State private var defaultPrice = 0.0
+    @State private var defaultPrice: Decimal = 0.0
     @State private var defaultCaffeine = 0
     @State private var abbreviation = "NA"
     

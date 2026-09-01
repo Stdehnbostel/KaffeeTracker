@@ -16,7 +16,7 @@ struct CoffeeDetailView: View {
     @Bindable var coffee: Coffee
     @State private var type: CoffeeType
     @State private var name: String
-    @State private var price: Double
+    @State private var price: Decimal
     @State private var volume: Int
     @State private var date: Date
     

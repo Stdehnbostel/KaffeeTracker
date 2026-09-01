@@ -10,7 +10,7 @@ import Foundation
 /// The CoffeeDay struct is a data model to reprensent one day in coffee for display in the chart. 
 struct CoffeeDay: Identifiable {
     var date: Date
-    var cost: Double
+    var cost: Decimal
     var nrOfCoffees: Int
     var caffeine: Int
     var id = UUID()

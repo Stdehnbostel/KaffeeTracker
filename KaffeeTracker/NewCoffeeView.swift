@@ -15,7 +15,7 @@ struct NewCoffeeView: View {
     @Query(sort: \CoffeeType.name) var types: [CoffeeType]
     @State private var selectedType: CoffeeType
     @State private var name: String
-    @State private var price: Double
+    @State private var price: Decimal
     @State private var volume: Int
     @State private var date = Date.now
     
@@ -40,6 +40,7 @@ struct NewCoffeeView: View {
                         .onChange(of: selectedType) {
                             price = selectedType.defaultPrice
                             volume = selectedType.defaultVolume
+                            name = selectedType.name
                         }
                     Section {
                         Button("Speichern", action: save)

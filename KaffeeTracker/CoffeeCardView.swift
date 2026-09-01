@@ -10,7 +10,7 @@ import SwiftUI
 struct CoffeeCardView: View {
     let title: String
     let numberOfCoffees: Int
-    let cost: Double
+    let cost: Decimal
     let volume: Int
     
     var body: some View {
