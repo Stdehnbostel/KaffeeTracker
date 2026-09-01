@@ -27,7 +27,10 @@ extension HomeView {
         
         /// takes an array of Coffees and and returns an filtered array conataining only the coffees, that belong to the current week.
         func currentWeeksCoffees(for coffees: [Coffee]) -> [Coffee] {
-            coffees.filter { $0.date >= .now.startOfWeek ?? .now }
+            let now = Date.now
+            let startOfWeek = now.startOfWeek ?? now
+            let endOfWeek = Calendar.current.date(byAdding: .day, value: 7, to: startOfWeek) ?? now
+            return coffees.filter { $0.date >= startOfWeek && $0.date < endOfWeek }
         }
         
         // takes an array of Coffees and returns the total cost for a given weekday.
