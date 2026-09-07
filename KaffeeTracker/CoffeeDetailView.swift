@@ -64,9 +64,11 @@ struct CoffeeDetailView: View {
     }
     
     func save() {
+        coffee.name = name
         coffee.type = type
         coffee.price = price
         coffee.volume = volume
+        coffee.date = date
         dismiss()
     }
     
