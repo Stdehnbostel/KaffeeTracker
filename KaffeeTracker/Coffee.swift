@@ -28,4 +28,8 @@ class Coffee {
     convenience init(type: CoffeeType, date: Date) {
         self.init(name: type.name, price: type.defaultPrice, volume: type.defaultVolume, type: type, date: date)
     }
+    
+    var displayPrice: String {
+        price.formatted(.currency(code: "EUR"))
+    }
 }

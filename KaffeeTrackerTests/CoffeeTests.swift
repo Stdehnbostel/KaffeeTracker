@@ -13,6 +13,7 @@ import Foundation
 
 struct CoffeeTests {
     let type = CoffeeType(name: "Flat White", defaultVolume: 120, defaultPrice: 4.80, defaultCaffeine: 60)
+    
     @Test func convenienceInitCorrecltyInitializesCoffeeFromAType() {
         let date = Date.now
         let coffee = Coffee(type: type, date: .now)
@@ -22,5 +23,11 @@ struct CoffeeTests {
         #expect(coffee.price == type.defaultPrice, "The coffee's price should match the type's default price")
         #expect(coffee.type === type, "The coffee's type should be the one provided")
         #expect(coffee.date == date, "The coffee's date should match the provided date")
+    }
+    
+    @Test func displayPriceDisplaysThePriceInEURCorrectlyFormatted() {
+        let coffee = Coffee(type: type, date: .now)
+        let expectedString = "4,80 €" // contains non-breaking space
+        #expect(coffee.displayPrice == expectedString, "expected: '\(expectedString)', got: '\(coffee.displayPrice)'")
     }
 }
